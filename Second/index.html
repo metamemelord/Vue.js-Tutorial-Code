@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <my-cmp></my-cmp>
+        <hr>
+        <my-cmp></my-cmp>
+    </div>
+
+    <div id="app2">
+        <ok-cmp></ok-cmp>
+    </div>
+    <script>
+        //Global component
+        
+        Vue.component('my-cmp', {
+            data: function () {
+                return {
+                    status: 'Critical'
+                };
+            },
+            template: '<p>Server Status: {{status}}</p>'
+        });
+
+        //Local component
+        var ok_componenet = {
+            data: function () {
+                return {
+                    status: 'Normal! :D'
+                };
+            },
+            template: '<p>Server Status: {{status}}</p>'
+        };
+        new Vue({
+            el: '#app'
+        });
+
+        new Vue({
+            el: '#app2',
+            components: {
+                'ok-cmp': ok_componenet
+            }
+        });
+    </script>
+</body>
+
+</html>
