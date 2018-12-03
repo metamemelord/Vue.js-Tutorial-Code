@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VueJS</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<script src="js/bootstrap.bundle.js"></script>
+	<script src="vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<input type="text" v-model="name">
+		<p>{{name}}</p>
+	</div>
+	<script>
+		// You may of course also outsource this script code into a separate file (e.g. app.js) and simply import this file here
+		new Vue({
+			el: '#app',
+			data: {
+				name: 'Gaurav'
+			},
+			methods: {
+			}
+		})
+	</script>
+</body>
+
+</html>

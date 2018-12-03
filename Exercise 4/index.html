@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>VueJS</title>
+  <link rel="stylesheet" href="../css/bootstrap.css">
+  <style>
+    #effect {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
+.highlight {
+  background-color: red;
+  width: 200px !important;
+}
+
+.shrink {
+  background-color: gray;
+  width: 50px !important;
+}
+
+.classToChange {
+  color: red;
+}
+</style>
+  <script src="js/bootstrap.bundle.js"></script>
+  <script src="../vue.js"></script>
+</head>
+
+<body>
+  <div id="exercise">
+    <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
+    <div>
+      <button @click="startEffect">Start Effect</button>
+      <div id="effect" :class="classValue"></div>
+    </div>
+    <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+    <div :class="getClassForText()"> {{ textValue }}</div>
+    <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+    <div>
+      <input type="text" v-model="anotherClassValue">
+      <div :class="anotherClassValue">Hi! This class is to check that the tested class works!</div>
+    </div>
+    <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
+    <div>
+      <input type="text" v-model="activity4Class">
+      <input type="text" v-model="activity4TrueOrFalse">
+      <div :class="getClassForActivity4()">Activity 4</div>
+    </div>
+    <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+    <div>
+      <input type="text" v-model="color">
+      <div :style="[getStyle()]">Ola Amigos!</div>
+    </div>
+    <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+    <div>
+      <button @click="startProgress">Start Progress</button>
+      <div :style="[makeProgress(), {height:'10px'}, {background:'yellow'}]"></div>
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: '#exercise',
+      data: {
+        classValue: '',
+        active: true,
+        effectToggle: false,
+        textValue: "I got no class! :(",
+        anotherClassValue: '',
+        activity4Class: '',
+        activity4TrueOrFalse: '',
+        color: '',
+        progress: 0
+      },
+      methods: {
+        startEffect: function (event) {
+          var ins = this;
+          ins.effectToggle = !ins.effectToggle;
+          var effectWorker = setInterval(function () {
+            if (ins.active) {
+              ins.classValue = "highlight";
+              ins.active = !ins.active;
+            } else {
+              ins.classValue = "shrink";
+              ins.active = !ins.active;
+            }
+            if (!ins.effectToggle) {
+              clearInterval(effectWorker);
+            }
+          }, 1000);
+        },
+        getClassForText: function () {
+          this.textValue = "Hey! I got a class now!!! :D";
+          return { 'classToChange': true };
+        },
+        getClassForActivity4: function () {
+          var key = this.activity4Class;
+          var val = (this.activity4TrueOrFalse == 'true') ? true : false;
+          result = {};
+          result[key] = val;
+          return result;
+        }, getStyle: function() {
+          return { 'background': this.color};
+        }, startProgress: function() {
+          var ins = this;
+          setInterval(function() {
+            ++ins.progress;
+          }, 10);
+        }, makeProgress: function() {
+          return {'width':this.progress+'px'};
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>
