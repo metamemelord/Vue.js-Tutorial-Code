@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VueJS</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<script src="js/bootstrap.bundle.js"></script>
+	<script src="vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<input type="button" value="Click me!" v-on:click="increment(2)">
+		<input type="button" value="Click me!" v-on:click="decrement(2)">
+		<p>{{counter}}</p>
+		<p v-on:mousemove="updateCoord">
+			Coordinates: ({{x}},{{y}}) - <span v-on:mousemove.stop.prevent="">DEAD SPOT</span>
+		</p>
+		<input type="text" v-on:keyup.enter="alertMe">
+	</div>
+	<script>
+		// You may of course also outsource this script code into a separate file (e.g. app.js) and simply import this file here
+		new Vue({
+			el: '#app',
+			data: {
+				counter: 0,
+				x: 0,
+				y: 0
+			},
+			methods: {
+				increment: function (count) {
+					this.counter += count;
+				},
+				decrement: function (count) {
+					this.counter -= count;
+				},
+				updateCoord: function (event) {
+					this.x = event.clientX;
+					this.y = event.clientY;
+				},
+				dummy: function (event) {
+					event.stopPropagation();
+				},
+				alertMe: function (event) {
+					alert(event.target.value)
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

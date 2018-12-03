@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Monster Slayer</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div id="app">
+        <section class="row">
+            <div class="small-6 columns">
+                <h1 class="text-center">YOU</h1>
+                <div class="healthbar">
+                    <div class="healthbar text-center" :style="{width: player_health + '%'}" style="background-color: green; margin: 0; color: white;">
+                        {{(player_health <= 0)? '' : player_health}} </div> </div> </div> <div class="small-6 columns">
+                            <h1 class="text-center">MONSTER</h1>
+                            <div class="healthbar">
+                                <div class="healthbar text-center" :style="{width: monster_health   + '%'}" style="background-color: green; margin: 0; color: white;">
+                                    {{(monster_health <= 0)? '' : monster_health}} </div> </div> </div> </section>
+                                        <section v-if="!is_game_on" class="row controls">
+                                        <div class="small-12 columns">
+                                            <button @click="is_game_on=!is_game_on" id="start-game">START NEW GAME</button>
+                                        </div>
+        </section>
+        <section v-else class="row controls">
+            <div class="small-12 columns">
+                <button @click="attack()" id="attack">ATTACK</button>
+                <button @click="special_attack()" id="special-attack">SPECIAL ATTACK</button>
+                <button @click="heal()" id="heal">HEAL</button>
+                <button @click="giveup('You were weak!')" id="give-up">GIVE UP</button>
+            </div>
+        </section>
+        <section class="row log">
+            <div class="small-12 columns">
+                <ul>
+                    <li v-for="log in logs">
+                        {{log}}
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                isPlayer: false,
+                is_game_on: false,
+                player_health: 100,
+                monster_health: 100,
+                specialAttackUsage: 1,
+                healPermitted: 3,
+                logs: []
+            },
+            methods: {
+                attack: function () {
+                    var playerAttack = Math.floor((Math.random() * 10) + 2);
+                    var monsterAttack = Math.floor((Math.random() * 10) + 2);
+                    this.player_health -= monsterAttack;
+                    this.monster_health -= playerAttack;
+                    this.logs.push(`Player hit for ${playerAttack} points.`);
+                    this.logs.push(`Monster hit for ${monsterAttack} points.`);
+                },
+                special_attack: function () {
+                    if (this.specialAttackUsage) {
+                        this.specialAttackUsage--;
+                        var specialPlayerAttack = Math.floor((Math.random() * 20) + 5);
+                        var specialMonsterAttack = Math.floor((Math.random() * 5) + 2);
+                        this.player_health -= specialMonsterAttack;
+                        this.monster_health -= specialPlayerAttack;
+                        this.logs.push(`Player hit for ${specialPlayerAttack} points.`);
+                        this.logs.push(`Monster hit for ${specialMonsterAttack} points.`);
+                    }
+                    else {
+                        this.player_health -= 5;
+                        this.logs.push(`You have used your special attack! You harmed youself for 5 points!`);
+                    }
+                },
+                heal: function () {
+                    if (this.healPermitted) {
+                        this.healPermitted--;
+                        var initialPlayerHealth = this.player_health;
+                        var initialMonsterHealth = this.monster_health;
+                        var playerHeal = Math.floor((Math.random() * 10) + 2);
+                        var monsterHeal = Math.floor((Math.random() * 5) + 2);
+                        this.player_health = Math.min(playerHeal + this.player_health, 100);
+                        this.monster_health = Math.min(playerHeal + this.monster_health, 100);
+                        playerHeal = this.player_health - initialPlayerHealth;
+                        monsterHeal = this.monster_health - initialMonsterHealth;
+                        if (initialPlayerHealth == this.player_health) {
+                            if (initialMonsterHealth == this.monster_health) {
+                                this.logs.push("Ha ha ha! You wasted a healing potion!");
+                            }
+                            else {
+                                this.logs.push("Ha ha ha! You healed the monster, stupid!");
+                            }
+                        }
+                        else {
+                            this.logs.push(`Player healed for ${playerHeal} points.`);
+                            this.logs.push(`Monster healed for ${monsterHeal} points.`);
+                        }
+                    } else {
+                        this.logs.push(`Cannot heal more than 3 times!`);
+                    }
+                },
+                giveup: function (message) {
+                    this.is_game_on = false;
+                    this.player_health = 100;
+                    this.monster_health = 100;
+                    this.specialAttackUsage = 1;
+                    this.healPermitted = 3;
+                    this.logs = [message];
+                }
+            },
+            watch: {
+                player_health: function () {
+                    if (this.player_health <= 0) {
+                        alert("You lose! Monster's health: " + this.monster_health);
+                        this.giveup("");
+                    }
+                },
+                monster_health: function () {
+                    if (this.monster_health <= 0) {
+                        alert("You are victorious! Health remaining: " + this.player_health);
+                        this.giveup("");
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

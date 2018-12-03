@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VueJS</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<script src="js/bootstrap.bundle.js"></script>
+	<script src="vue.js"></script>
+	<style>
+		.demo {
+			width: 100px;
+			height: 100px;
+			background-color: gray;
+			display: inline-block;
+			margin: 10px;
+			transition: all 0.7s
+		}
+
+		.red {
+			background-color: red;
+			transform: scale(1.1);
+			transition: all 0.7s;
+		}
+		.green {
+			background-color: green;
+			transform: scale(1.1);
+			transition: all 0.7s;
+		}
+		.blue {
+			background-color: blue;
+			transform: scale(1.1);
+			transition: all 0.7s;
+		}
+		.yellow {
+			background-color: yellow;
+			transform: scale(1.1);
+			transition: all 0.7s;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<div class="demo" @click="attachRed=!attachRed" :class="{'red': attachRed}"></div>
+		<div class="demo" @click="attachGreen=!attachGreen" :class="{'green': attachGreen}"></div>
+		<div class="demo" @click="attachBlue=!attachBlue" :class="{'blue': attachBlue}"></div>
+		<div class="demo" :class="color"></div>
+		<div class="demo" :style="{'background-color': color}"></div><br>
+		<input type="text" v-model="color">
+	</div>
+	<script>
+		// You may of course also outsource this script code into a separate file (e.g. app.js) and simply import this file here
+		new Vue({
+			el: '#app',
+			data: {
+				attachRed: false,
+				attachGreen: false,
+				attachBlue: false,
+				color: ''
+			}
+		})
+	</script>
+</body>
+
+</html>

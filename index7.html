@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VueJS</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<!-- <script src="js/bootstrap.bundle.js"></script> -->
+	<script src="vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+
+	</div>
+	<script>
+		var i = 0;
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				testValue: 0
+			},
+			computed: {
+				getStyle: function() {
+					return {
+						'background-color': this.color,
+						'width': this.width + 'px'
+					}
+				}
+			}
+		});
+		function printValues(obj) {
+			for(key in obj) {
+				if(typeof obj[key] === 'object') {
+					document.getElementById('app').innerHTML += "<br>";
+					printValues(key, obj[key]);
+				} else {
+					i++;
+					document.getElementById('app').innerHTML += `<h3> ${key} : ${obj[key]} </h3><br>`;
+				}
+			}
+		}
+		printValues(vm);
+	</script>
+</body>
+
+</html>
