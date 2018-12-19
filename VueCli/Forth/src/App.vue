@@ -1,21 +1,40 @@
 <template>
-  <div id="app">
-    <input v-model="value">
-    <p>{{lol}}</p>
-    <p>lol</p>
-    <!-- <quote :quote="value"></quote> -->
+  <div id="app" class="container">
+    <div class="row"></div>
+    <div class="col6" style="background: green" >lol</div>
+    <button @click="selectedComponent='quote'">Quote</button>
+    <button @click="selectedComponent='app-author'">Author</button>
+    <button @click="selectedComponent='app-new'">New Component</button>
+    <br>
+    <keep-alive>
+      <component :is="selectedComponent">
+      </component>
+    </keep-alive>
+    <!-- <quote :quote="lol">
+      <hr>
+      <h2 slot="title">{{lol}}</h2>
+      <p>{{selectedComponent}}</p>
+      <hr>
+    </quote> -->
   </div>
 </template>
 
 <script>
 import Quote from "./components/Quote.vue";
+import appNew from "./components/New.vue";
+import appAuthor from "./components/Author.vue";
 
 export default {
-  data: {
-    lol: "hello"
+  data: function() {
+    return {
+      lol: "",
+      selectedComponent: "quote"
+    };
   },
   components: {
-    quote: Quote
+    quote: Quote,
+    appAuthor: appAuthor,
+    appNew: appNew
   }
 };
 </script>
