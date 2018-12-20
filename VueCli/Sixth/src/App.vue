@@ -76,7 +76,7 @@
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 from-group">
-          <label for="priority">Switch</label>
+          <label>Switch</label>
           <app-switch v-model="dataSwitch"></app-switch>
         </div>
       </div>
