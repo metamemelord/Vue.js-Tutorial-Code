@@ -170,9 +170,6 @@ export default {
 .fade-enter-active {
   transition: all 0.5s;
 }
-.fade-leave {
-  /* opacity: 1; */
-}
 .fade-leave-active {
   transition: all 0.3s;
   opacity: 0;
@@ -185,8 +182,6 @@ export default {
 .slide-enter-active {
   animation: slide-in 0.5s ease-out forwards;
   transition: opacity 0.2s;
-}
-.slide-leave {
 }
 .slide-leave-active {
   animation: slide-out 0.3s ease-out forwards;
