@@ -3,9 +3,12 @@
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                 <h1>Vuex</h1>
-                <app-result :counter="counter"></app-result>
+                <app-result></app-result>
                 <hr>
-                <app-counter @updated="counter += $event"></app-counter>
+                <app-another-result></app-another-result>
+                <hr>
+                <app-counter></app-counter>
+                <app-another-counter></app-another-counter>
             </div>
         </div>
     </div>
@@ -13,7 +16,9 @@
 
 <script>
     import Counter from './components/Counter.vue';
+    import anotherCounter from './components/AnotherCounter.vue';
     import Result from './components/Result.vue';
+    import anotherResult from './components/AnotherResult.vue';
 
     export default {
         data() {
@@ -23,7 +28,9 @@
         },
         components: {
             appCounter: Counter,
+            appAnotherCounter: anotherCounter,
             appResult: Result,
+            appAnotherResult: anotherResult
         }
     }
 </script>
