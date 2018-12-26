@@ -1,8 +1,9 @@
 <template>
-<div>
+  <div>
+    <span>Another result</span>
     <p>Counter is: {{ counter }}</p>
     <p>Counter is: {{ clicks }}</p>
-</div>
+  </div>
 </template>
 
 <script>
@@ -12,7 +13,7 @@ export default {
       return this.$store.getters.doubleCounter;
     },
     clicks() {
-        return this.$store.getters.stringCounter;
+      return this.$store.getters.stringCounter;
     }
   }
 };

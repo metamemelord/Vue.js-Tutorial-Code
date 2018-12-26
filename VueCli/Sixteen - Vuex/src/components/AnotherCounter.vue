@@ -1,8 +1,10 @@
 <template>
   <div>
     <hr>
-    <button class="btn btn-primary" @click="increment">Increment</button>
-    <button class="btn btn-primary" @click="lol">Increment</button>
+    <span>Another Counter</span>
+    <br>
+    <button class="btn btn-primary" @click="increment">Increment without args</button>
+    <button class="btn btn-primary" @click="lol">Increment with 10 (lol)</button>
     <button class="btn btn-primary" @click="decrement">Decrement</button>
     <button class="btn btn-primary" @click="increment(30)">Increment using actions</button>
     <hr>
@@ -19,7 +21,8 @@ export default {
     //     'decrement'
     // ]),
     lol() {
-      this.$store.commit("increment");
+      console.log("sed");
+      this.$store.commit("increment", 10);
     },
     ...mapActions(["increment", "decrement"])
     // increment(by) {
