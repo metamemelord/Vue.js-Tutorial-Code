@@ -10,6 +10,8 @@ Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(Vuex);
 
+Vue.http.options.root = "https://vuejs-metamemelord.firebaseio.com/";
+
 Vue.filter("currency", value => {
   return "₹" + value.toLocaleString();
 });

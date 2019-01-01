@@ -29,21 +29,19 @@
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
+            :class="{show: isDropdown}"
             href="#"
             id="navbarDropdown"
             role="button"
             data-toggle="dropdown"
             aria-haspopup="true"
-            aria-expanded="false"
+            :aria-expanded="isDropdown"
+            @click="isDropdown=!isDropdown"
           >Save / Load</a>
-          <ul class="dropdown-menu">
-            <li>
-              <a href="#">Save Data</a>
-            </li>
-            <li>
-              <a href="#">Load Data</a>
-            </li>
-          </ul>
+          <div class="dropdown-menu" :class="{show: isDropdown}" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" @click="saveData">Save Data</a>
+            <a class="dropdown-item" href="#" @click="loadData">Load Data</a>
+          </div>
         </li>
       </ul>
     </div>
@@ -52,17 +50,36 @@
 
 <script>
 import { mapActions } from "vuex";
+
 export default {
+  data: () => {
+    return {
+      isDropdown: false
+    };
+  },
   computed: {
     funds() {
       return this.$store.getters.funds;
     }
   },
   methods: {
-    ...mapActions(["randomizeStocks"]),
+    ...mapActions({
+      randomizeStocks: "randomizeStocks",
+      fetchData: "loadData"
+    }),
     endDay() {
-      console.log("Hello");
       this.randomizeStocks();
+    },
+    saveData() {
+      const stockData = {
+        funds: this.$store.getters.funds,
+        stocksPortfolio: this.$store.getters.stocksPortfolio,
+        stocks: this.$store.getters.stocks
+      };
+      this.$http.put("data.json", stockData);
+    },
+    loadData() {
+      this.fetchData();
     }
   }
 };
