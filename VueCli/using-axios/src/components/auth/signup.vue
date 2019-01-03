@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import axios from "../../axios-auth.js";
+
 export default {
   data() {
     return {
@@ -84,7 +86,18 @@ export default {
         hobbies: this.hobbyInputs.map(hobby => hobby.value),
         terms: this.terms
       };
-      this.$store.dispatch("signup", formData);
+      axios
+        .post("/signupNewUser?key=AIzaSyCNDj1wl0LzMXQymSIb_hGon_tVDyLuz-0", {
+          email: formData.email,
+          password: formData.password,
+          returnSecureToken: true
+        })
+        .then(res => {
+          //console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
