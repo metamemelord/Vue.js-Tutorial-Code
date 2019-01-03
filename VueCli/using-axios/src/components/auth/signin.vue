@@ -2,6 +2,10 @@
   <div id="signin">
     <div class="signin-form">
       <form @submit.prevent="onSubmit">
+        <template v-if="failed">
+          <div style="background: red; color: white">Visible</div>
+          <hr>
+        </template>
         <div class="input">
           <label for="email">Mail</label>
           <input type="email" id="email" v-model="email">
@@ -11,7 +15,7 @@
           <input type="password" id="password" v-model="password">
         </div>
         <div class="submit">
-          <button type="submit">Submit</button>
+          <button type="submit" :class="{disabled: clicked}">Submit</button>
         </div>
       </form>
     </div>
@@ -24,27 +28,23 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      clicked: false
     };
+  },
+  computed: {
+    failed() {
+      return this.$store.getters.loginFailed;
+    }
   },
   methods: {
     onSubmit() {
+      this.clicked = true;
       const formData = {
         email: this.email,
         password: this.password
       };
-
-      axios
-        .post("/verifyPassword?key=AIzaSyCNDj1wl0LzMXQymSIb_hGon_tVDyLuz-0", {
-          email: formData.email,
-          password: formData.password
-        })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(error => {
-          console.log("aha", error);
-        });
+      this.$store.dispatch("login", formData);
     }
   }
 };
