@@ -2,13 +2,14 @@
   <div id="signup">
     <div class="signup-form">
       <form @submit.prevent="onSubmit">
-        <div class="input">
+        <div class="input" :class="{invalid: $v.email.$error}">
           <label for="email">Mail</label>
-          <input type="email" id="email" v-model="email">
+          <input type="email" id="email" v-model="email" @blur="$v.email.$touch()">
+          <p v-if="!($v.email.email)">Please provide a valid email address</p>
         </div>
-        <div class="input">
+        <div class="input" :class="{invalid: $v.age.$error}">
           <label for="age">Your Age</label>
-          <input type="number" id="age" v-model.number="age">
+          <input type="number" id="age" v-model.number="age" @blur="$v.age.$touch()">
         </div>
         <div class="input">
           <label for="password">Password</label>
@@ -51,6 +52,7 @@
 </template>
 
 <script>
+import { required, email, numeric, minValue } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
@@ -85,6 +87,17 @@ export default {
         terms: this.terms
       };
       this.$store.dispatch("signup", formData);
+    }
+  },
+  validations: {
+    email: {
+      required,
+      email
+    },
+    age: {
+      required,
+      numeric,
+      minVal: minValue(18)
     }
   }
 };
@@ -129,6 +142,14 @@ export default {
   outline: none;
   border: 1px solid #521751;
   background-color: #eee;
+}
+
+.input.invalid label {
+  color: red;
+}
+.input.invalid input {
+  border: 1px solid red;
+  background-color: #ffc9aa;
 }
 
 .input select {
